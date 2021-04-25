@@ -3,12 +3,10 @@ package Cerebro;
 import Utils.Matriz;
 
 public class RedeNeural {
-
     //nos
     private int nos_entrada;
     private int nos_oculta;
     private int nos_saida;
-
     //bias
     private Matriz bias_entrada_oculta;
     private Matriz bias_oculta_saida;
@@ -17,7 +15,9 @@ public class RedeNeural {
     private Matriz pesos_oculta_saida;
 
 
-    public RedeNeural(int nos_entrada, int nos_oculta, int nos_saida){
+    private float valorDesejado;
+
+    public RedeNeural(int nos_entrada, int nos_oculta, int nos_saida) {
         //numero de nos
         this.nos_entrada = nos_entrada;
         this.nos_oculta = nos_oculta;
@@ -25,44 +25,42 @@ public class RedeNeural {
 
         //valor do bias
         this.bias_entrada_oculta = new Matriz(nos_oculta, 1, "matriz bias da entrada para oculta");
-        this.bias_oculta_saida = new Matriz (nos_oculta,1, "matriz bias da oculta para a saida");
+        this.bias_oculta_saida = new Matriz(nos_oculta, 1, "matriz bias da oculta para a saida");
 
         //valor pesos
         this.pesos_entrada_oculta = new Matriz(nos_oculta, nos_entrada, "matriz peso da entrada para oculta");
         this.pesos_oculta_saida = new Matriz(nos_saida, nos_oculta, "matriz peso da oculta para a saida");
 
         //Entrada
-        float [][] input = {{2}};
+        float[][] input = {{2}};
         feedFoward(input);
     }
 
-    public void feedFoward(float [][] input){
+    public void feedFoward(float[][] input) {
         //Entrada -> Oculta
         Matriz matrizEntradas = new Matriz(input);
         //Multiplica entrada por pesos e somataria
-        float [][] matrizValoresOculta = Matriz.multiplicaMatriz(pesos_entrada_oculta, matrizEntradas);
-        Matriz matrizValoresOculta2 = new Matriz (matrizValoresOculta);
+        float[][] matrizValoresOculta = Matriz.multiplicaMatriz(pesos_entrada_oculta, matrizEntradas); //retorna float [][]
+        Matriz matrizValoresOculta2 = new Matriz(matrizValoresOculta); //transforma em objetos
         //Soma com o bias
-        float [][] matrizValoresOculta3 = Matriz.somaMatriz(matrizValoresOculta2, bias_entrada_oculta);
+        float[][] matrizValoresOculta3 = Matriz.somaMatriz(matrizValoresOculta2, bias_entrada_oculta);//retorna float[][]
         //função de ativação em cada nó
-        float [][] resultadoValoresOculta4 = Matriz.funcaoEmCadaElementoMatriz(matrizValoresOculta3);
-        Matriz resultadoFinalValoresOculta = new Matriz (resultadoValoresOculta4);
+        float[][] resultadoValoresOculta4 = Matriz.funcaoEmCadaElementoMatriz(matrizValoresOculta3);
+        Matriz resultadoFinalValoresOculta = new Matriz(resultadoValoresOculta4);
 
         //Oculta -> Saida
         //Multiplica entrada por pesos e somataria
-        float [][] matrizValoresSaida = Matriz.multiplicaMatriz(pesos_oculta_saida, resultadoFinalValoresOculta);
-        Matriz matrizValoresSaida2 = new Matriz (matrizValoresSaida);
+        float[][] matrizValoresSaida = Matriz.multiplicaMatriz(pesos_oculta_saida, resultadoFinalValoresOculta);
+        Matriz matrizValoresSaida2 = new Matriz(matrizValoresSaida);
         //soma com bias
-        float [][] matrizValoresSaida3 = Matriz.somaMatriz(matrizValoresSaida2, bias_oculta_saida);
+        float[][] matrizValoresSaida3 = Matriz.somaMatriz(matrizValoresSaida2, bias_oculta_saida);
         //função de ativação em cada nó
-        float [][] resultadoValoresSaida4 = Matriz.funcaoEmCadaElementoMatriz(matrizValoresSaida3);
-        Matriz resultadoFinalValoresSaida= new Matriz (resultadoValoresSaida4);
-
-
+        float[][] resultadoValoresSaida4 = Matriz.funcaoEmCadaElementoMatriz(matrizValoresSaida3);
+        Matriz resultadoFinalValoresSaida = new Matriz(resultadoValoresSaida4);
     }
 
-    public static double sigmoid(float x){
-        return 1/(1+Math.exp(-x));
+    public static double sigmoid(float x) {
+        return 1 / (1 + Math.exp(-x));
     }
 
     public static int funcaoDegral(float n) {

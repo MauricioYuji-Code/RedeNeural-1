@@ -8,7 +8,7 @@ public class Matriz {
     private int cols;
     private float[][] data;
 
-
+//Matriz aleatoria com numeros de 0 a 10
     public Matriz(int rows, int cols) {
 
         this.rows = rows;
@@ -18,11 +18,11 @@ public class Matriz {
         mapMatrizAleatorio(data);
 
     }
-
+    //transformar array em um objeto matriz
     public Matriz(float[][] matriz) {
         this.data = matriz;
     }
-
+    // Matriz aleatoria para pesos e bias
     public Matriz(int rows, int cols, String componente) {
         this.rows = rows;
         this.cols = cols;
@@ -31,7 +31,6 @@ public class Matriz {
         mapMatrizRandomica(data);
         System.out.println("--------------");
     }
-
     //Popula matriz aleatorio
     public void mapMatrizAleatorio(float[][] matriz) {
         for (int i = 0; i < rows; i++) {
