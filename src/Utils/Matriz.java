@@ -8,7 +8,7 @@ public class Matriz {
     private int cols;
     private float[][] data;
 
-//Matriz aleatoria com numeros de 0 a 10
+    //Matriz aleatoria com numeros de 0 a 10
     public Matriz(int rows, int cols) {
 
         this.rows = rows;
@@ -18,10 +18,12 @@ public class Matriz {
         mapMatrizAleatorio(data);
 
     }
+
     //transformar array em um objeto matriz
     public Matriz(float[][] matriz) {
         this.data = matriz;
     }
+
     // Matriz aleatoria para pesos e bias
     public Matriz(int rows, int cols, String componente) {
         this.rows = rows;
@@ -31,6 +33,7 @@ public class Matriz {
         mapMatrizRandomica(data);
         System.out.println("--------------");
     }
+
     //Popula matriz aleatorio
     public void mapMatrizAleatorio(float[][] matriz) {
         for (int i = 0; i < rows; i++) {
@@ -65,6 +68,19 @@ public class Matriz {
         return matrizResult;
     }
 
+    //sub Matriz
+    public static float[][] subMatriz(Matriz matrizA, Matriz matrizB) {
+        float[][] matrizResult = new float[matrizA.data.length][matrizB.data[0].length];
+        for (int i = 0; i < matrizA.data.length; i++) {
+            for (int j = 0; j < matrizA.data[0].length; j++) {
+                matrizResult[i][j] = matrizA.data[i][j] - matrizB.data[i][j];
+            }
+        }
+        System.out.print("Resultado matriz soma: ");
+        printMatriz(matrizResult, matrizA.data.length, matrizB.data[0].length);
+        return matrizResult;
+    }
+
     // Multiplica matriz
     public static float[][] multiplicaMatriz(Matriz matrizA, Matriz matrizB) {
         float[][] matrizResult = new float[matrizA.data.length][matrizB.data[0].length];
@@ -80,6 +96,44 @@ public class Matriz {
         }
         System.out.print("Resultado matriz multiplicação: ");
         printMatriz(matrizResult, matrizA.data.length, matrizB.data[0].length);
+        return matrizResult;
+    }
+
+    //Multplicar Matriz elemento por elemento (hadamard)
+    public static float[][] hadamardMatriz(Matriz matrizA, Matriz matrizB) {
+        float[][] matrizResult = new float[matrizA.data.length][matrizB.data[0].length];
+        for (int i = 0; i < matrizA.data.length; i++) {
+            for (int j = 0; j < matrizA.data[0].length; j++) {
+                matrizResult[i][j] = matrizA.data[i][j] * matrizB.data[i][j];
+            }
+        }
+        System.out.print("Resultado matriz hadamard: ");
+        printMatriz(matrizResult, matrizA.data.length, matrizB.data[0].length);
+        return matrizResult;
+    }
+
+    //Escalar matriz
+    public static float[][] escalarMatriz(Matriz matrizA, float escalar) {
+        float[][] matrizResult = new float[matrizA.data.length][matrizA.data[0].length];
+        for (int i = 0; i < matrizA.data.length; i++) {
+            for (int j = 0; j < matrizA.data[0].length; j++) {
+                matrizResult[i][j] = matrizA.data[i][j] * escalar;
+            }
+        }
+        System.out.print("Resultado matriz escalar: ");
+        printMatriz(matrizResult, matrizA.data.length, matrizA.data[0].length);
+        return matrizResult;
+    }
+
+    //Transpor matriz
+    public static float[][] transporMatriz(Matriz matriz) {
+        float[][] matrizResult = new float[matriz.data[0].length][matriz.data.length];
+        for (int i = 0; i < matriz.data.length; i++) {
+            for (int j = 0; j < matriz.data[0].length; j++) {
+                matrizResult[j][i] = matriz.data[i][j];
+            }
+        }
+        printMatriz(matrizResult, matriz.data[0].length, matriz.data.length);
         return matrizResult;
     }
 
@@ -105,7 +159,7 @@ public class Matriz {
         }
     }
 
-    public static float [][] funcaoEmCadaElementoMatriz(float [][] matriz){
+    public static float[][] funcaoEmCadaElementoMatriz(float[][] matriz) {
         float[][] matrizResult = new float[matriz.length][matriz[0].length];
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
@@ -117,9 +171,22 @@ public class Matriz {
         return matrizResult;
     }
 
+    public static float[][] derivadaSigmoidEmCadaElementoMatriz(float[][] matriz) {
+        float[][] matrizResult = new float[matriz.length][matriz[0].length];
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                matrizResult[i][j] = (float) RedeNeural.derivadaSigmoid(matriz[i][j]);
+            }
+        }
+        System.out.print("Resultado aplicação da função: ");
+        printMatriz2(matrizResult);
+        return matrizResult;
+    }
+
     //Getters e Setters
     public float[][] getData() {
         return data;
     }
+
 
 }
