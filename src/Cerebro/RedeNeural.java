@@ -63,46 +63,50 @@ public class RedeNeural {
 
         //Saida para oculta corrigida
         //Erro saida
-        Matriz resultadoEsperado = new Matriz(esperado);
-        float[][] erroSaida = Matriz.subMatriz(resultadoEsperado, resultadoFinalValoresSaida);
-        float[][] derivadaSigmoid = Matriz.derivadaSigmoidEmCadaElementoMatriz(resultadoValoresSaida4);
+        Matriz resultadoEsperado = new Matriz(esperado); //transforma resultado esperado em matriz
+        System.out.println("ERRO SAIDA \n");
+        float[][] erroSaida = Matriz.subMatriz(resultadoEsperado, resultadoFinalValoresSaida); //subtrai o erro da saida
         Matriz erroSaida2 = new Matriz(erroSaida);
+        System.out.println("DERIVADA SIGMOID \n");
+        float[][] derivadaSigmoid = Matriz.derivadaSigmoidEmCadaElementoMatriz(resultadoValoresSaida4); //faz o calculo do resultado da derivada simoid em cada elemento da saida
         Matriz derivadaSigmoid2 = new Matriz(derivadaSigmoid);
-        float[][] oculta_transposta = Matriz.transporMatriz(resultadoFinalValoresOculta);
+        System.out.println("CAMADA OCULTA TRANSPOSTA \n");
+        float[][] oculta_transposta = Matriz.transporMatriz(resultadoFinalValoresOculta); //transpos a cama oculta
         Matriz oculta_transposta2 = new Matriz(oculta_transposta);
         //Gradient
-        float[][] gradient = Matriz.hadamardMatriz(erroSaida2, derivadaSigmoid2);
+        float[][] gradient = Matriz.hadamardMatriz(erroSaida2, derivadaSigmoid2); //gradient erro * derivada sigmoid saida
         Matriz gradient2 = new Matriz(gradient);
-        gradient = Matriz.escalarMatriz(gradient2, learningRate);
+        gradient = Matriz.escalarMatriz(gradient2, learningRate); //Multiploica pelo lr
         Matriz gradient3 = new Matriz(gradient);
-        float[][] deltaPesosOcultaSaida = Matriz.multiplicaMatriz(gradient3, oculta_transposta2);
+
+        float[][] deltaPesosOcultaSaida = Matriz.multiplicaMatriz(gradient3, oculta_transposta2); //Multiplica o gradient pela transpota da oculta (Deltas W)
         Matriz deltaPesosOcultaSaida2 = new Matriz(deltaPesosOcultaSaida);
-        float[][] pesos_oculta_saida2 = Matriz.somaMatriz(pesos_oculta_saida, deltaPesosOcultaSaida2);
+        float[][] pesos_oculta_saida2 = Matriz.somaMatriz(pesos_oculta_saida, deltaPesosOcultaSaida2); //soma pesos com os deltas pesos
         Matriz pesos_oculta_saida3 = new Matriz(pesos_oculta_saida2);
-        this.pesos_oculta_saida = pesos_oculta_saida3;
+        this.pesos_oculta_saida = pesos_oculta_saida3; //substitui pelos novos pesos
 
         //Oculta para entrada corrigida
-        float[][] pesos_oculta_saida_transposta = Matriz.transporMatriz(pesos_oculta_saida);
+        float[][] pesos_oculta_saida_transposta = Matriz.transporMatriz(pesos_oculta_saida); //transpos a matriz de pesos da oculta para saida
         Matriz pesos_oculta_saida_transposta2 = new Matriz(pesos_oculta_saida_transposta);
-        float[][] erroOculta = Matriz.multiplicaMatriz(pesos_oculta_saida_transposta2, erroSaida2);
+        System.out.println("ERRO OCULTA \n");
+        float[][] erroOculta = Matriz.multiplicaMatriz(pesos_oculta_saida_transposta2, erroSaida2); // multiplica para termos o erro da oculta
         Matriz erroOculta2 = new Matriz(erroOculta);
-        float [][] derivadaOculta = Matriz.derivadaSigmoidEmCadaElementoMatriz(matrizValoresOculta2.getData());
+        System.out.println("DERIVADA SIGMOID \n");
+        float [][] derivadaOculta = Matriz.derivadaSigmoidEmCadaElementoMatriz(resultadoFinalValoresOculta.getData()); //faz o calculo do resultado da derivada simoid em cada elemento da oculta
         Matriz derivadaOculta2 = new Matriz(derivadaOculta);
-        float [][] entradaTransposta = Matriz.transporMatriz(matrizEntradas);
+        System.out.println("ENTRADA TRANSPOSTA \n");
+        float [][] entradaTransposta = Matriz.transporMatriz(matrizEntradas); //Transpos entrada
         Matriz entradaTransposta2 = new Matriz(entradaTransposta);
-        float [][] gradienteOculta = Matriz.hadamardMatriz(erroOculta2, derivadaOculta2);
+        //GRADIENT
+        float [][] gradienteOculta = Matriz.hadamardMatriz(erroOculta2, derivadaOculta2); //erro oculta * derivada oculta
         Matriz gradienteOculta2 = new Matriz(gradienteOculta);
-        gradienteOculta = Matriz.escalarMatriz(gradienteOculta2, learningRate);
+        gradienteOculta = Matriz.escalarMatriz(gradienteOculta2, learningRate); //Multiploica pelo lr
         Matriz gradienteOculta3 = new Matriz(gradienteOculta);
-        float [][] deltaPesosEntradaOculta = Matriz.multiplicaMatriz(gradienteOculta3, entradaTransposta2);
+        float [][] deltaPesosEntradaOculta = Matriz.multiplicaMatriz(gradienteOculta3, entradaTransposta2); //Multiplica o gradient pela transpota da entrada (Deltas W)
         Matriz deltaPesosEntradaOculta2 = new Matriz(deltaPesosEntradaOculta);
-        float [][] pesos_entrada_oculta2 = Matriz.somaMatriz(pesos_entrada_oculta, deltaPesosEntradaOculta2);
+        float [][] pesos_entrada_oculta2 = Matriz.somaMatriz(pesos_entrada_oculta, deltaPesosEntradaOculta2); //soma pesos com os deltas pesos
         Matriz pesos_entrada_oculta3 = new Matriz(pesos_entrada_oculta2);
-        this.pesos_entrada_oculta = pesos_entrada_oculta3;
-
-
-
-
+        this.pesos_entrada_oculta = pesos_entrada_oculta3;//substitui os pesos
 
     }
 

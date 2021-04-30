@@ -8,9 +8,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RedeNeural redeNeural1 = new RedeNeural(1, 3,2);
+        RedeNeural redeNeural1 = new RedeNeural(2, 3,2);
 
-        float[][] testeEntrada = {{2}};
+        float[][] testeEntrada = {{2}, {1}};
         float[][] testeEsperado = {{1}, {0}};
 
         redeNeural1.treino(testeEntrada, testeEsperado);
